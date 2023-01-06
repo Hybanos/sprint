@@ -2,12 +2,28 @@
 require_once("modele/modele.php");
 require_once("vue/vue.php");
 
-function ctrlTestMedecin() {
-    afficherTestMedecin();
+function ctrlLogin($id, $mdp) {
+    $res=loginMdp($id, $mdp);
+
+    // test si login/mdp existe
+    if ($res != null) {
+        $personnel=$res[0];
+
+        // si medecin
+        if ($personnel->IDCATEGORIE == 2) {
+            afficherPageMedecin($res[0]);
+        }
+        
+    } else {
+        ctrlAfficherAcceuil();
+        echo "Login ou mdp invalide.";
+    }
 }
 
+// VUE
+
 function ctrlAfficherAcceuil() {
-    // afficherAcceuil();
+    afficherAcceuil();
 }
 
 function ctrlAfficherListeListes($liste) {
@@ -15,6 +31,8 @@ function ctrlAfficherListeListes($liste) {
     // afficherListeListes($liste)
 }
 
+
+// MODELE
 // CLIENTS
 
 function ctrlAjouterClient($nom, $prenom, $adresse, $tel, $dateNaissance, $departementNaissance, $paysNaissance, $NSS, $mdp) {
@@ -30,6 +48,21 @@ function ctrlModifierClient($id, $nom, $prenom, $adresse, $tel, $dateNaissance, 
 function ctrlSupprimerClient($id) {
     supprimerClient($id);
     ctrlAfficherListeListes(getClients());
+}
+
+function ctrlAjouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp, $spe) {
+    ajouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp, $spe);
+    ctrlAfficherListeListes(getPersonnel());
+}
+
+function ctrlModifierPersonnel($id, $idCategorie, $nom, $prenom, $login, $mdp, $spe) {
+    modifierMedecin($id, $idCategorie, $nom, $prenom, $login, $mdp, $spe);
+    ctrlAfficherListeListes(getPersonnel());
+}
+
+function ctrlSupprimerPersonnel($id) {
+    supprimerMedecin($id);
+    ctrlAfficherListeListes(getPersonnel());
 }
 
 // MEDECINS

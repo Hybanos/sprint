@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-      <title>Ma page</title>
+      <title><?php echo $nom; ?></title>
       <meta charset="utf-8">
 	  <link rel="stylesheet"  href="vue/style/style.css" />
 
@@ -38,11 +38,12 @@ function envoi() {
     </head>
   <body>
 
-  <h1>Page de </h1>
+  <h1>Page de <?php echo $nom; ?></h1>
 
   <form id="menu" method="POST">
     <fieldset id="set">
         <legend>haha</legend>
+        <input type="hidden" name="idhidden" value="<?php echo $id; ?>">
 
         <p>nombre de créneaux a bloquer : <input type="text" id="textfield" onblur="envoi()"></p>
     </fieldset>
