@@ -61,3 +61,105 @@ function ctrlSupprimerRDV($id) {
     supprimerRDV($id);
     ctrlAfficherListeListes(getRDVs());
 }
+
+// MOTIFS
+
+function ctrlAjouterMotif($libelle, $montant) {
+    ajouterMotif($libelle, $montant);
+    ctrlAfficherListeListes(getMotifs());
+}
+
+function ctrlModifierMotif($id, $libelle, $montant) {
+    modifierMotif($id, $libelle, $montant);
+    ctrlModifierMotif(getMotifs());
+}
+
+function ctrlSupprimerMotif($id) {
+    supprimerMotif($id);
+    ctrlSupprimerMotif(getMotifs());
+}
+
+//PIECE
+
+function ctrlAjouterPiece($libelle) {
+    ajouterPiece($libelle);
+    ctrlAjouterPiece(getPiece());
+}
+
+function ctrlModifierPiece($id, $libelle) {
+    modifierPiece($id, $libelle);
+    ctrlModifierPiece(getPiece());
+}
+
+function ctrlSupprimerPiece($id) {
+    supprimerPiece($id);
+    ctrlSupprimerPiece(getPiece());
+}
+
+// CONSIGNE
+
+function ctrlAjouterConsigne($libelle) {
+    ajouterConsigne($libelle);
+    ctrlAjouterConsigne(getConsigne());
+}
+
+function ctrlModifierConsigne($id, $libelle) {
+    modifierConsigne($id, $libelle);
+    ctrlModifierConsigne(getConsigne());
+}
+
+function ctrlSupprimerConsigne($id) {
+    supprimerConsigne($id);
+    ctrlSupprimerConsigne(getConsigne());
+}
+
+// TACHE ADMIN
+
+function ctrlAjouterTache($date, $idPersonnel) {
+    ajouterTache($date, $idPersonnel);
+    ctrlAjouterTache(getTache());
+}
+
+function ctrlModifierTache($id, $date, $idPersonnel) {
+    modifierTache($id, $date, $idPersonnel);
+    ctrlAjouterTache(getTache());
+}
+
+function ctrlSupprimerTache($id) {
+    supprimerTache($id);
+    ctrlSupprimerTache(getTache());
+}
+
+// CATEGORIE
+
+function ctrlAjouterCategorie($categorie) {
+    ajouterCategorie($categorie);
+    ctrlAjouterCategorie(getCategorie());
+}
+
+function ctrlModifierCategorie($id, $categorie) {
+    modifierCategorie($id, $categorie);
+    ctrlModifierCategorie(getCategorie());
+}
+
+function ctrlSupprimerCategorie($id) {
+    supprimerCategorie($id);
+    ctrlSupprimerCategorie(getCategorie());
+}
+
+// SPECIALITE
+
+function ctrlAjouterSpecialite($libelle) {
+    ajouterSpecialite($libelle);
+    ctrlAjouterSpecialite(getSpecialite());
+}
+
+function ctrlModifierSpecialite($id, $libelle) {
+    modifierSpecialite($id, $libelle);
+    ctrlModifierSpecialite(getSpecialite());
+}
+
+function ctrlSupprimerSpecialite($id) {
+    supprimerSpecialite($id);
+    ctrlSupprimerSpecialite(getSpecialite());
+}
