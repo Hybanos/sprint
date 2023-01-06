@@ -61,3 +61,20 @@ function ctrlSupprimerRDV($id) {
     supprimerRDV($id);
     ctrlAfficherListeListes(getRDVs());
 }
+
+// MOTIFS
+
+function ctrlAjouterMotif($libelle, $montant) {
+    ajouterMotif($libelle, $montant);
+    ctrlAfficherListeListes(getMotifs());
+}
+
+function ctrlModifierMotif($id, $libelle, $montant) {
+    modifierMotif($id,$libelle, $montant);
+    ctrlAfficherListeListes(getRDVs());
+}
+
+function ctrlSupprimerMotif($id) {
+    supprimerMotif($id);
+    ctrlAfficherListeListes(getRDVs());
+}
