@@ -1,6 +1,10 @@
 <?php
 require_once("modele/modele.php");
-// require_once("vue/vue.php");
+require_once("vue/vue.php");
+
+function ctrlTestMedecin() {
+    afficherTestMedecin();
+}
 
 function ctrlAfficherAcceuil() {
     // afficherAcceuil();
