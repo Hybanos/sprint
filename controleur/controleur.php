@@ -74,105 +74,96 @@ function ctrlAjouterMotif($libelle, $montant) {
 }
 
 function ctrlModifierMotif($id, $libelle, $montant) {
-<<<<<<< HEAD
     modifierMotif($id,$libelle, $montant);
-    ctrlAfficherListeListes(getRDVs());
-=======
-    modifierMotif($id, $libelle, $montant);
-    ctrlModifierMotif(getMotifs());
->>>>>>> master
+    ctrlAfficherListeListes(getMotifs());
 }
 
 function ctrlSupprimerMotif($id) {
     supprimerMotif($id);
-<<<<<<< HEAD
-    ctrlAfficherListeListes(getRDVs());
-=======
-    ctrlSupprimerMotif(getMotifs());
+    ctrlAfficherListeListes(getMotifs());
 }
 
 //PIECE
 
 function ctrlAjouterPiece($libelle) {
     ajouterPiece($libelle);
-    ctrlAjouterPiece(getPiece());
+    ctrlAfficherListeListes(getPiece());
 }
 
 function ctrlModifierPiece($id, $libelle) {
     modifierPiece($id, $libelle);
-    ctrlModifierPiece(getPiece());
+    ctrlAfficherListeListes(getPiece());
 }
 
 function ctrlSupprimerPiece($id) {
     supprimerPiece($id);
-    ctrlSupprimerPiece(getPiece());
+    ctrlAfficherListeListes(getPiece());
 }
 
 // CONSIGNE
 
 function ctrlAjouterConsigne($libelle) {
     ajouterConsigne($libelle);
-    ctrlAjouterConsigne(getConsigne());
+    ctrlAfficherListeListes(getConsigne());
 }
 
 function ctrlModifierConsigne($id, $libelle) {
     modifierConsigne($id, $libelle);
-    ctrlModifierConsigne(getConsigne());
+    ctrlAfficherListeListes(getConsigne());
 }
 
 function ctrlSupprimerConsigne($id) {
     supprimerConsigne($id);
-    ctrlSupprimerConsigne(getConsigne());
+    ctrlAfficherListeListes(getConsigne());
 }
 
 // TACHE ADMIN
 
 function ctrlAjouterTache($date, $idPersonnel) {
     ajouterTache($date, $idPersonnel);
-    ctrlAjouterTache(getTache());
+    ctrlAfficherListeListes(getTache());
 }
 
 function ctrlModifierTache($id, $date, $idPersonnel) {
     modifierTache($id, $date, $idPersonnel);
-    ctrlAjouterTache(getTache());
+    ctrlAfficherListeListes(getTache());
 }
 
 function ctrlSupprimerTache($id) {
     supprimerTache($id);
-    ctrlSupprimerTache(getTache());
+    ctrlAfficherListeListes(getTache());
 }
 
 // CATEGORIE
 
 function ctrlAjouterCategorie($categorie) {
     ajouterCategorie($categorie);
-    ctrlAjouterCategorie(getCategorie());
+    ctrlAfficherListeListes(getCategorie());
 }
 
 function ctrlModifierCategorie($id, $categorie) {
     modifierCategorie($id, $categorie);
-    ctrlModifierCategorie(getCategorie());
+    ctrlAfficherListeListes(getCategorie());
 }
 
 function ctrlSupprimerCategorie($id) {
     supprimerCategorie($id);
-    ctrlSupprimerCategorie(getCategorie());
+    ctrlAfficherListeListes(getCategorie());
 }
 
 // SPECIALITE
 
 function ctrlAjouterSpecialite($libelle) {
     ajouterSpecialite($libelle);
-    ctrlAjouterSpecialite(getSpecialite());
+    ctrlAfficherListeListes(getSpecialite());
 }
 
 function ctrlModifierSpecialite($id, $libelle) {
     modifierSpecialite($id, $libelle);
-    ctrlModifierSpecialite(getSpecialite());
+    ctrlAfficherListeListes(getSpecialite());
 }
 
 function ctrlSupprimerSpecialite($id) {
     supprimerSpecialite($id);
-    ctrlSupprimerSpecialite(getSpecialite());
->>>>>>> master
+    ctrlAfficherListeListes(getSpecialite());
 }
