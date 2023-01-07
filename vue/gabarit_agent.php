@@ -20,6 +20,11 @@
                 <input type="submit" name="modificationPatient" id="texte" value="Modifier">
                 <input type="reset" value="Effacer">
             </fieldset>
+            <fieldset>
+                <legend>Synthèse Patient :</legend>
+                <input type="text" name="nss" id="texte" placeholder="NSS du patient">
+                <input type="submit" name="synthese" value="synthèse patient">
+            </fieldset>
         </form>
     </body>
 </html>
