@@ -55,6 +55,50 @@ function modifierSolde($id, $montant) {
     $res->closeCursor();
 }
 
+// PERSONNEL
+
+function loginMdp($login, $mdp) {
+    $connection=getConnect();
+    $query="SELECT * FROM PERSONNEL WHERE LOGIN='$login' AND MDP='$mdp'";
+    $res=$connection->query($query);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $resultat=$res->fetchAll();
+    $res->closeCursor();
+    return $resultat;
+}
+
+function ajouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp) {
+    $connection=getConnect();
+    $query="INSERT INTO PERSONNEL VALUES (0, $idCategorie, '$nom', '$prenom', '$login', '$mdp')";
+    $res=$connection->query($query);
+    $res->closeCursor();
+}
+
+function modifierPersonnel($id, $idCategorie, $nom, $prenom, $login, $mdp) {
+    $connection=getConnect();
+    $query="UPDATE PERSONNEL SET (0, $idCategorie, '$nom', '$prenom', '$login', '$mdp')
+    WHERE IDPERSONNEL=$id";
+    $res=$connection->query($query);
+    $res->closeCursor();
+}
+
+function supprimerPersonnel($id) {
+    $connection=getConnect();
+    $query="DELETE FROM PERSONNEL WHERE IDPERSONNEL=$id";
+    $res=$connection->query($query);
+    $res->closeCursor();
+}
+
+function getPersonnel() {
+    $connection=getConnect();
+    $query="SELECT * FROM PERSONNEL";
+    $res=$connection->query($query);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $medecins=$res->fetchall();
+    $res->closeCursor();
+    return $medecins;
+}
+
 // MEDECIN
 
 function ajouterMedecin($nom, $prenom, $login, $mdp, $spe) {

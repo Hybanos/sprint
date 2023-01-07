@@ -6,7 +6,7 @@
         <title>Acceuil</title>
     </head>
     <body>
-        <form method="post" action="site.php">
+        <form method="post">
             <fieldset>
                 <legend>Insérer vos identifiants :</legend>
                 <input type="text" name="id" id="texte" placeholder="Identifiants" required>
