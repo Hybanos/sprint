@@ -6,10 +6,10 @@
         <title>Directeur</title>
     </head>
     <body>
-        <form method="post" action="site.php">
+        <form method="post">
             <fieldset>
                 <legend>Créer ou modifier une fiche employé :</legend>
-                <input type="text" name="AncienneId" id="texte" placeholder="Id de l'employe à modifier">
+                <input type="text" name="ancienneId" id="texte" placeholder="Id de l'employe à modifier">
                 <input type="text" name="id" id="texte" placeholder="Identifiants">
                 <input type="text" name="mdp" id="texte" placeholder="Mot de passe">
                 <select id="liste" name="fonction">
