@@ -4,13 +4,14 @@ require_once("vue/vue.php");
 
 function ctrlLogin($id, $mdp) {
     $res=loginMdp($id, $mdp);
-    // test si login/mdp existe
     if ($res != null) {
         $personnel=$res[0];
         if ($personnel->IDCATEGORIE == 2) {
-            afficherPageMedecin($res[0]);
+            ctrlAfficherPageMedecin($res[0]);
         } else if ($personnel->IDCATEGORIE == 3) {
             ctrlAfficherPageDirecteur();
+        } else if ($personnel->IDCATEGORIE == 1) {
+            ctrlAfficherPageAgent();
         }
     } else {
         ctrlAfficherAcceuil();
@@ -43,6 +44,14 @@ function ctrlAfficherAcceuil() {
 
 function ctrlAfficherPageDirecteur() {
     afficherPageDirecteur(getPersonnels(), getMotifs(), getPiece(), getRequiert(), getConsigne(), getNecessite(), getMedecins(), getSpecialite());
+}
+
+function ctrlAfficherPageMedecin($id) {
+    afficherPageMedecin($id);
+}
+
+function ctrlAfficherPageAgent() {
+    afficherPageAgent();
 }
 
 function ctrlAfficherListeListes($liste) {
@@ -221,17 +230,14 @@ function ctrlAjouterNecessite($idMotif, $idConsigne) {
 
 function ctrlAjouterTache($date, $idPersonnel) {
     ajouterTache($date, $idPersonnel);
-    ctrlAfficherListeListes(getTache());
 }
 
 function ctrlModifierTache($id, $date, $idPersonnel) {
     modifierTache($id, $date, $idPersonnel);
-    ctrlAfficherListeListes(getTache());
 }
 
 function ctrlSupprimerTache($id) {
     supprimerTache($id);
-    ctrlAfficherListeListes(getTache());
 }
 
 // CATEGORIE

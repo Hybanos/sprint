@@ -351,7 +351,7 @@ function getNecessite() {
 
 function ajouterTache($date, $idPersonnel) {
     $connection=getConnect();
-    $query="INSERT INTO TACHEADMIN VALUES (0, $date, $idPersonnel)";
+    $query="INSERT INTO TACHEADMIN VALUES (0, '$date', $idPersonnel)";
     $res=$connection->query($query);
     $res->closeCursor();
 }
