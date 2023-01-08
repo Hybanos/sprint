@@ -71,7 +71,9 @@ function ajouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp) {
     $connection=getConnect();
     $query="INSERT INTO PERSONNEL VALUES (0, $idCategorie, '$nom', '$prenom', '$login', '$mdp')";
     $res=$connection->query($query);
+    $id=$connection->lastInsertId();
     $res->closeCursor();
+    return $id;
 }
 
 function modifierPersonnel($id, $idCategorie, $nom, $prenom, $login, $mdp) {
@@ -111,17 +113,17 @@ function getPersonnel($id) {
 
 // MEDECIN
 
-function ajouterMedecin($nom, $prenom, $login, $mdp, $spe) {
+function ajouterMedecin($idSpe, $idPers, $nom, $prenom, $login, $mdp) {
     $connection=getConnect();
-    $query="INSERT INTO MEDECIN VALUES (0, '$nom', '$prenom', '$login', '$mdp', '$spe')";
+    $query="INSERT INTO `MEDECIN`(`IDSPECIALITE`, `IDPERSONNEL`) VALUES ($idSpe, $idPers)";
     $res=$connection->query($query);
     $res->closeCursor();
 }
 
-function modifierMedecin($id, $nom, $prenom, $login, $mdp, $spe) {
+function modifierMedecin($idSpe, $idPers, $nom, $prenom, $login, $mdp) {
     $connection=getConnect();
-    $query="UPDATE MEDECIN SET (0, '$nom', '$prenom', '$login', '$mdp', '$spe')
-    WHERE IDMEDECIN=$id";
+    $query="UPDATE MEDECIN SET ($idSpe, $idPers, '$nom', '$prenom', '$login', '$mdp')
+    WHERE IDMEDECIN=$idPers";
     $res=$connection->query($query);
     $res->closeCursor();
 }
@@ -135,10 +137,20 @@ function supprimerMedecin($id) {
 
 function getMedecins() {
     $connection=getConnect();
-    $query="SELECT * FROM MEDECINS";
+    $query="SELECT MEDECIN.IDPERSONNEL, SPECIALITE.LIBELLESPECIALITE, PERSONNEL.NOM, PERSONNEL.PRENOM FROM `MEDECIN` JOIN PERSONNEL ON MEDECIN.IDPERSONNEL=PERSONNEL.IDPERSONNEL JOIN SPECIALITE ON MEDECIN.IDSPECIALITE=SPECIALITE.IDSPECIALITE";
     $res=$connection->query($query);
     $res->setFetchMode(PDO::FETCH_OBJ);
     $medecins=$res->fetchall();
+    $res->closeCursor();
+    return $medecins;
+}
+
+function getMedecin($id) {
+    $connection=getConnect();
+    $query="SELECT * FROM `MEDECIN` WHERE IDPERSONNEL=$id";
+    $res=$connection->query($query);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $medecins=$res->fetch();
     $res->closeCursor();
     return $medecins;
 }
@@ -168,7 +180,7 @@ function supprimerRDV($id) {
 
 function getRDVs() {
     $connection=getConnect();
-    $query="SELECT * FROM MEDECIN";
+    $query="SELECT * FROM RDV";
     $res=$connection->query($query);
     $res->setFetchMode(PDO::FETCH_OBJ);
     $rdvs=$res->fetchAll();

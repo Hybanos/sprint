@@ -42,7 +42,7 @@ function ctrlAfficherAcceuil() {
 }
 
 function ctrlAfficherPageDirecteur() {
-    afficherPageDirecteur(getPersonnels(), getMotifs(), getPiece(), getRequiert(), getConsigne(), getNecessite());
+    afficherPageDirecteur(getPersonnels(), getMotifs(), getPiece(), getRequiert(), getConsigne(), getNecessite(), getMedecins(), getSpecialite());
 }
 
 function ctrlAfficherListeListes($liste) {
@@ -88,9 +88,22 @@ function ctrlSupprimerPersonnel($id) {
 
 // MEDECINS
 
-function ctrlAjouterMedecin($nom, $prenom, $login, $mdp, $spe) {
-    ajouterMedecin($nom, $prenom, $login, $mdp, $spe);
-    ctrlAfficherListeListes(getMedecins());
+function ctrlCreerModifierMedecin($id, $spe, $nom, $prenom, $login, $mdp) {
+    // $cat=array(3=>"Directeur", 2=>"Medecin", 4=>"Agent");
+
+    if ($id == null) {
+        $id = -1;
+    }
+
+    $medecin = getMedecin($id);
+
+    if ($medecin == null) {
+        $id = ajouterPersonnel(2, $nom, $prenom, $login, $mdp);
+        ajouterMedecin($spe, $id, "", "", "", "");
+    } else {
+        modifierPersonnel($id, 2, $nom, $prenom, $login, $mdp);
+        modifierMedecin($id, $spe, "", "", "", "");
+    }
 }
 
 function ctrlModifierMedecin($id, $nom, $prenom, $login, $mdp, $spe) {

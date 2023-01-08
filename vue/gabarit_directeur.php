@@ -50,10 +50,33 @@ function cacherMotifs() {
     button.value = "Afficher Motifs";
     button.onclick = afficherMotifs;
 }
-    
+
+
+function afficherMedecins() {
+    var table = document.getElementById("tableMedecins");
+    var supp = document.getElementById("suppMedecins");
+    var button = document.getElementById("buttonMedecins");
+
+    table.style.display = "block";
+    supp.style.display = "block";
+    button.value = "Cacher Medecins";
+    button.onclick = cacherMedecins;
+}
+
+function cacherMedecins() {
+    var table = document.getElementById("tableMedecins");
+    var supp = document.getElementById("suppMedecins");
+    var button = document.getElementById("buttonMedecins");
+
+    table.style.display = "none";
+    supp.style.display = "none";
+    button.value = "Afficher Medecins";
+    button.onclick = afficherMedecins;
+}
+
         </script>
     </head>
-    <body onload="cacherEmployes(); cacherMotifs()">
+    <body onload="cacherEmployes(); cacherMotifs(); cacherMedecins()">
         <form method="POST" id="personnel">
             <fieldset>
                 <legend>Créer ou modifier une fiche employé :</legend>
@@ -96,13 +119,19 @@ function cacherMotifs() {
         <form method="POST" id="medecin">
             <fieldset>
                 <legend>Créer ou supprimer une fiche médecin:</legend>
-                <input type="text" name="Nom" id="texte" placeholder="Nom">
-                <input type="text" name="Prénom" id="texte" placeholder="Prenom">
-                <input type="text" name="Specialite" id="texte" placeholder="Spécialité">
-                
-                <input type="submit" name="CreerMedecin" id="bouton" value="Création">
-                <input type="submit" name="SupprimerMedecin" id="bouton" value="Suppresion">
+                <input type="text" name="id" id="texte" placeholder="Id du mececin"> 
+                <select id="listemedecin" name="specialite">
+                <?php echo $listeSpecialite;?>
+                </select>               
+                <input type="text" name="nom" id="texte" placeholder="Nom">
+                <input type="text" name="prenom" id="texte" placeholder="Prenom">
+                <input type="text" name="login" id="texte" placeholder="Login">
+                <input type="text" name="mdp" id="texte" placeholder="Mot de passe">
+                <br>
+                <input type="submit" name="CreerMedecin" id="bouton" value="Créer ou modifier">
                 <input type="reset" value="Effacer">
+                <p><input type="button" value="Afficher Medecins" id="buttonMedecins" onclick="afficherMedecins()"></p>
+                <?php echo $listeMedecins; ?>
             </fieldset>
         </form>
 

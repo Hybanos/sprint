@@ -54,6 +54,24 @@ try {
             }
         }
         ctrlAfficherPageDirecteur();
+    } else if (isset($_POST["CreerMedecin"])) {
+        $id = $_POST["id"];
+        $spe = $_POST["specialite"];
+        $nom = $_POST["nom"];
+        $prenom = $_POST["prenom"];
+        $login = $_POST["login"];
+        $mdp = $_POST["mdp"];
+
+        ctrlCreerModifierMedecin($id, $spe, $nom, $prenom, $login, $mdp);
+
+        ctrlAfficherPageDirecteur();
+    } else if (isset($_POST["suppMedecins"])) {
+        foreach ($_POST as $key=>$val) {
+            if (str_starts_with($key, "medecinCheck")) {
+                ctrlSupprimerPersonnel($val);
+            }
+        }
+        ctrlAfficherPageDirecteur();
     } else {
         ctrlAfficherAcceuil();
     }
