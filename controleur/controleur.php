@@ -4,26 +4,45 @@ require_once("vue/vue.php");
 
 function ctrlLogin($id, $mdp) {
     $res=loginMdp($id, $mdp);
-
     // test si login/mdp existe
     if ($res != null) {
         $personnel=$res[0];
-
-        // si medecin
         if ($personnel->IDCATEGORIE == 2) {
             afficherPageMedecin($res[0]);
+        } else if ($personnel->IDCATEGORIE == 3) {
+            ctrlAfficherPageDirecteur();
         }
-        
     } else {
         ctrlAfficherAcceuil();
         echo "Login ou mdp invalide.";
     }
 }
 
+function ctrlCreerModifierPersonnel($id, $categorie, $nom, $prenom, $login, $mdp) {
+    $cat=array("Directeur"=>3, "Medecin"=>2, "Agent"=>4);
+
+    if ($id == null) {
+        $id = -1;
+    }
+
+    $personnel=getPersonnel($id);
+    
+    if ($personnel == null) {
+        ajouterPersonnel($cat[$categorie], $nom, $prenom, $login, $mdp);
+    } else {
+        modifierPersonnel($id, $cat[$categorie], $nom, $prenom, $login, $mdp);
+    }
+    ctrlAfficherPageDirecteur();
+}
+
 // VUE
 
 function ctrlAfficherAcceuil() {
     afficherAcceuil();
+}
+
+function ctrlAfficherPageDirecteur() {
+    afficherPageDirecteur(getPersonnels(), getMotifs(), getPiece(), getRequiert(), getConsigne(), getNecessite());
 }
 
 function ctrlAfficherListeListes($liste) {
@@ -50,19 +69,21 @@ function ctrlSupprimerClient($id) {
     ctrlAfficherListeListes(getClients());
 }
 
+// PERSONNEL
+
 function ctrlAjouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp, $spe) {
     ajouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp, $spe);
-    ctrlAfficherListeListes(getPersonnel());
+    ctrlAfficherListeListes(getPersonnels());
 }
 
 function ctrlModifierPersonnel($id, $idCategorie, $nom, $prenom, $login, $mdp, $spe) {
-    modifierMedecin($id, $idCategorie, $nom, $prenom, $login, $mdp, $spe);
-    ctrlAfficherListeListes(getPersonnel());
+    modifierPersonnel($id, $idCategorie, $nom, $prenom, $login, $mdp, $spe);
+    ctrlAfficherListeListes(getPersonnels());
 }
 
 function ctrlSupprimerPersonnel($id) {
-    supprimerMedecin($id);
-    ctrlAfficherListeListes(getPersonnel());
+    supprimerPersonnel($id);
+    ctrlAfficherListeListes(getPersonnels());
 }
 
 // MEDECINS
@@ -101,6 +122,26 @@ function ctrlSupprimerRDV($id) {
 
 // MOTIFS
 
+function ctrlCreerModifierMotif($id, $libelle, $prix) {
+    if ($id == null) {
+        $id = -1;
+    }
+
+    $motif = getMotif($id);
+
+    if ($motif == null) {
+        $id = ajouterMotif($libelle, $prix);
+        supprimerRequiert($id);
+        supprimerNecessite($id);
+    } else {
+        supprimerRequiert($id);
+        supprimerNecessite($id);
+        modifierMotif($id, $libelle, $prix);
+    }
+
+    return $id;
+}
+
 function ctrlAjouterMotif($libelle, $montant) {
     ajouterMotif($libelle, $montant);
     ctrlAfficherListeListes(getMotifs());
@@ -112,8 +153,9 @@ function ctrlModifierMotif($id, $libelle, $montant) {
 }
 
 function ctrlSupprimerMotif($id) {
+    supprimerRequiert($id);
+    supprimerNecessite($id);
     supprimerMotif($id);
-    ctrlAfficherListeListes(getMotifs());
 }
 
 //PIECE
@@ -133,6 +175,12 @@ function ctrlSupprimerPiece($id) {
     ctrlAfficherListeListes(getPiece());
 }
 
+// REQUIERT
+
+function ctrlAjouterRequiert($idMotif, $idPiece) {
+    ajouterRequiert($idMotif, $idPiece);
+}
+
 // CONSIGNE
 
 function ctrlAjouterConsigne($libelle) {
@@ -148,6 +196,12 @@ function ctrlModifierConsigne($id, $libelle) {
 function ctrlSupprimerConsigne($id) {
     supprimerConsigne($id);
     ctrlAfficherListeListes(getConsigne());
+}
+
+// NECESSITE
+
+function ctrlAjouterNecessite($idMotif, $idConsigne) {
+    ajouterNecessite($idMotif, $idConsigne);
 }
 
 // TACHE ADMIN
