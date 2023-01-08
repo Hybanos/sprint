@@ -50,5 +50,9 @@ function envoi() {
 
   </form>
 
+  <form method="POST" action="site.php">
+    <p><input type="submit" value="Déconnexion"></p>
+  </form>
+
   </body>
 </html>

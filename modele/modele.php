@@ -76,7 +76,7 @@ function ajouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp) {
 
 function modifierPersonnel($id, $idCategorie, $nom, $prenom, $login, $mdp) {
     $connection=getConnect();
-    $query="UPDATE PERSONNEL SET (0, $idCategorie, '$nom', '$prenom', '$login', '$mdp')
+    $query="UPDATE PERSONNEL SET IDPERSONNEL=$id,IDCATEGORIE=$idCategorie,NOM='$nom',PRENOM='$prenom',LOGIN='$login',MDP='$mdp'
     WHERE IDPERSONNEL=$id";
     $res=$connection->query($query);
     $res->closeCursor();
@@ -89,12 +89,22 @@ function supprimerPersonnel($id) {
     $res->closeCursor();
 }
 
-function getPersonnel() {
+function getPersonnels() {
     $connection=getConnect();
     $query="SELECT * FROM PERSONNEL";
     $res=$connection->query($query);
     $res->setFetchMode(PDO::FETCH_OBJ);
     $medecins=$res->fetchall();
+    $res->closeCursor();
+    return $medecins;
+}
+
+function getPersonnel($id) {
+    $connection=getConnect();
+    $query="SELECT * FROM PERSONNEL WHERE IDPERSONNEL=$id";
+    $res=$connection->query($query);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $medecins=$res->fetch();
     $res->closeCursor();
     return $medecins;
 }
@@ -172,12 +182,14 @@ function ajouterMotif($libelle, $montant) {
     $connection=getConnect();
     $query="INSERT INTO MOTIF VALUES (0, '$libelle', $montant)";
     $res=$connection->query($query);
+    $id = $connection->lastInsertId();   
     $res->closeCursor();
+    return $id;
 }
 
 function modifierMotif($id, $libelle, $montant) {
     $connection=getConnect();
-    $query="UPDATE MOTIF SET (0, $libelle, $montant) WHERE IDMOTIF=$id";
+    $query="UPDATE MOTIF SET LIBELLEMOTIF='$libelle', MONTANT=$montant WHERE IDMOTIF=$id";
     $res=$connection->query($query);
     $res->closeCursor();
 }
@@ -192,6 +204,16 @@ function supprimerMotif($id) {
 function getMotifs() {
     $connection=getConnect();
     $query="SELECT * FROM MOTIF";
+    $res=$connection->query($query);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $motifs=$res->fetchAll();
+    $res->closeCursor();
+    return $motifs;
+}
+
+function getMotif($id) {
+    $connection=getConnect();
+    $query="SELECT * FROM MOTIF WHERE IDMOTIF=$id";
     $res=$connection->query($query);
     $res->setFetchMode(PDO::FETCH_OBJ);
     $motifs=$res->fetchAll();
@@ -231,6 +253,31 @@ function getPiece() {
     return $pieces;
 }
 
+// REQUIERT
+
+function ajouterRequiert($idMotif, $idPiece) {
+    $connection=getConnect();
+    $query="INSERT INTO REQUIERT VALUES ($idPiece, $idMotif)";
+    $res=$connection->query($query);
+    $res->closeCursor();
+}
+
+function supprimerRequiert($idMotif) {
+    $connection=getConnect();
+    $query="DELETE FROM REQUIERT WHERE IDMOTIF=$idMotif";
+    $res=$connection->query($query);
+    $res->closeCursor();
+}
+
+function getRequiert() {
+    $connection=getConnect();
+    $query="SELECT * FROM REQUIERT";
+    $res=$connection->query($query);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $pieces=$res->fetchAll();
+    return $pieces;
+}
+
 // CONSIGNE
 
 function ajouterConsigne($libelle) {
@@ -261,6 +308,31 @@ function getConsigne() {
     $res->setFetchMode(PDO::FETCH_OBJ);
     $consignes=$res->fetchAll();
     return $consignes;
+}
+
+// NECESSITE
+
+function ajouterNecessite($idMotif, $idConsigne) {
+    $connection=getConnect();
+    $query="INSERT INTO NECESSITE VALUES ($idConsigne, $idMotif)";
+    $res=$connection->query($query);
+    $res->closeCursor();
+}
+
+function supprimerNecessite($idMotif) {
+    $connection=getConnect();
+    $query="DELETE FROM NECESSITE WHERE IDMOTIF=$idMotif";
+    $res=$connection->query($query);
+    $res->closeCursor();
+}
+
+function getNecessite() {
+    $connection=getConnect();
+    $query="SELECT * FROM NECESSITE";
+    $res=$connection->query($query);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $pieces=$res->fetchAll();
+    return $pieces;
 }
 
 //  TACHE ADMIN
