@@ -19,7 +19,7 @@ function ctrlLogin($id, $mdp) {
 }
 
 function ctrlCreerModifierPersonnel($id, $categorie, $nom, $prenom, $login, $mdp) {
-    $cat=array("Directeur"=>3, "Medecin"=>2, "Agent"=>4);
+    $cat=array("Directeur"=>3, "Medecin"=>2, "Agent"=>1);
 
     if ($id == null) {
         $id = -1;

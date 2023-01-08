@@ -18,7 +18,7 @@ function afficherPageDirecteur($personnel, $motif, $pieces, $requiert, $consigne
 }
 
 function listePersonnel($personnel) {
-    $a=array(2=>"Medecin", 3=>"Directeur", 4=>"Agent");
+    $a=array(2=>"Medecin", 3=>"Directeur", 1=>"Agent");
 
     $listePersonnel = "<table id='tablePersonnel'> <tr><th>ID</th> <th>Categorie</th> <th>Nom</th> <th>Prenom</th> <th>Login</th> <th>MDP</th> <th>Séléctionner</th></tr>";
     foreach ($personnel as $ligne) {
