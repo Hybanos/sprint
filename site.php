@@ -101,6 +101,7 @@ try {
         $nom=$_POST["nom"];
         $spe=$_POST["specialite"];
         $dateTime=$_POST["dateHeure"];
+        $id=$
         ctrlCreerRDV($nom, $spe, $dateTime);
     } else {
         ctrlAfficherAcceuil();
