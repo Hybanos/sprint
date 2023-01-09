@@ -2,6 +2,8 @@
 
 function afficherPageMedecin($medecin) {
     $nom=$medecin->NOM;
+    $login=$medecin->LOGIN;
+    $mdp=$medecin->MDP;
     $id=$medecin->IDPERSONNEL;
     require_once("gabaritMedecin.php");
 }
@@ -15,6 +17,10 @@ function afficherPageDirecteur($personnel, $motif, $pieces, $requiert, $consigne
     $listeSpecialite = listeSpecialite($spe);
 
     require("gabarit_directeur.php");
+}
+
+function afficherPageAgent() {
+    require_once("gabarit_agent.php");
 }
 
 function listePersonnel($personnel) {

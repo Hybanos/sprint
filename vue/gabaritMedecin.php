@@ -42,8 +42,10 @@ function envoi() {
 
   <form id="menu" method="POST">
     <fieldset id="set">
-        <legend>haha</legend>
-        <input type="hidden" name="idhidden" value="<?php echo $id; ?>">
+    <legend>haha</legend>
+        <input type="hidden" name="id" value="<?php echo $id; ?>">  
+        <input type="hidden" name="login" value="<?php echo $login; ?>">
+        <input type="hidden" name="mdp" value="<?php echo $mdp; ?>">
 
         <p>nombre de créneaux a bloquer : <input type="text" id="textfield" onblur="envoi()"></p>
     </fieldset>
@@ -51,6 +53,7 @@ function envoi() {
   </form>
 
   <form method="POST" action="site.php">
+    
     <p><input type="submit" value="Déconnexion"></p>
   </form>
 

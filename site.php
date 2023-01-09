@@ -6,12 +6,17 @@ try {
         ctrlLogin($_POST["id"], $_POST["mdp"]);
 
     } else if (isset($_POST["envoyerCreneauxBloques"])) {
+        $id = $_POST["id"];
+        $login = $_POST["login"];
+        $mdp = $_POST["mdp"];
         foreach ($_POST as $key=>$val) {
             if (str_starts_with($key, "addedfield") && isset($val)) {
-                echo $_POST["idhidden"];
-                // ajouterTache(date($val), 0);
+                $date = substr_replace($val, " ", 10, 1);
+                $date = substr_replace($date, "00", 14, 2);
+                ctrlAjouterTache($date, $id);
             }
         }
+        ctrlLogin($login, $mdp);
     } else if (isset($_POST["CreerPersonnel"])) {
         $id = $_POST["id"];
         $categorie = $_POST["categorie"];

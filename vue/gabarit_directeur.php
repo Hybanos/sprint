@@ -83,7 +83,7 @@ function cacherMedecins() {
                 <input type="text" name="id" id="texte" placeholder="Id de l'employé à modifier">
                 <select id="liste" name="categorie">
                     <option value="Agent">Agent</option>
-                    <option value="Medecin">Medecin</option>
+                    <!-- <option value="Medecin">Medecin</option> -->
                     <option value="Directeur">Directeur</option>
                 </select>
                 <input type="text" name="nom" id="texte" placeholder="Nom">
