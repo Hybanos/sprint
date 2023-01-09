@@ -78,6 +78,31 @@ function ctrlSupprimerClient($id) {
     ctrlAfficherListeListes(getClients());
 }
 
+function ctrlCreerModifierClient($id, $nom, $prenom, $adresse, $numero, $dateNaissance, $departementNaissance, $paysNaissance, $nss, $mdp){
+    if ($id == null) {
+        $id = -1;
+    }
+
+    $client=getClient($id);
+    
+    if ($client == null) {
+        ajouterClient($nom, $prenom, $adresse,
+        $numero, $dateNaissance, $departementNaissance,
+        $paysNaissance, $NSS, $mdp);
+    } else {
+        modifierClient($id, $nom, $prenom, $adresse,
+        $numero, $dateNaissance, $departementNaissance,
+        $paysNaissance, $NSS, $mdp);
+    }
+}
+
+function ctrlSyntheseClient($NSS){
+    afficherClient(getClientNSS($NSS),getClientRDVs(getClientNSS($NSS)->IDCLIENT));
+}
+
+function ctrlGetNSS($nom, $prenom){
+    afficherNSS(getNSS($nom, $prenom));
+}
 // PERSONNEL
 
 function ctrlAjouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp, $spe) {

@@ -141,3 +141,16 @@ function listeSpecialite($spe) {
 function afficherAcceuil() {
     require_once("gabarit_acceuil.php");
 }
+
+function afficherClient($client, $rdvs){
+    $synthese = "<p>'$client->IDCLIENT'<br>'$client->NOM'<br>'$client->PRENOM'<br>'$client->ADRESSE'<br>'$client->NUMTEL'<br>'$client->DATENAISSANCE'<br>'$client->DEPARTEMENTNAISSANCE'<br>'$client->PAYSNAISSANCE'<br>'$client->NSS'<br>'$client->SOLDE'<br> Rendez vous :";
+    foreach ($rdvs as $rdv){
+        $synthese.="'$rdv->NOM','$rdv->DATE','$rdv->MONTANT'<br>";
+    }
+    $synthese.="</p>";
+    return $synthese;
+}
+
+function afficherNSS($nss){
+    return $nss;
+}
