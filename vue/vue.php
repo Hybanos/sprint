@@ -6,17 +6,19 @@ function afficherPageMedecin($medecin) {
     require_once("gabaritMedecin.php");
 }
 
-function afficherPageDirecteur($personnel, $motif, $pieces, $requiert, $consignes, $necessite) {
+function afficherPageDirecteur($personnel, $motif, $pieces, $requiert, $consignes, $necessite, $medecins, $spe) {
     $listePersonnel = listePersonnel($personnel);
-    $listeMotif = listeMotif($motif, $pieces, $requiert, $consignes, $necessite);
     $listePieces = listePieces($pieces);
     $listeConsignes = listeConsignes($consignes);
+    $listeMotif = listeMotif($motif, $pieces, $requiert, $consignes, $necessite);
+    $listeMedecins = listeMedecins($medecins);
+    $listeSpecialite = listeSpecialite($spe);
 
     require("gabarit_directeur.php");
 }
 
 function listePersonnel($personnel) {
-    $a=array(2=>"Medecin", 3=>"Directeur", 4=>"Agent");
+    $a=array(2=>"Medecin", 3=>"Directeur", 1=>"Agent");
 
     $listePersonnel = "<table id='tablePersonnel'> <tr><th>ID</th> <th>Categorie</th> <th>Nom</th> <th>Prenom</th> <th>Login</th> <th>MDP</th> <th>Séléctionner</th></tr>";
     foreach ($personnel as $ligne) {
@@ -28,7 +30,7 @@ function listePersonnel($personnel) {
         $listePersonnel.="<td>$ligne->PRENOM</td>";
         $listePersonnel.="<td>$ligne->LOGIN</td>";
         $listePersonnel.="<td>$ligne->MDP</td>";
-        $listePersonnel.="<td><input type='checkbox' name='suppPersonnelId' value='$ligne->IDPERSONNEL'></td>";
+        $listePersonnel.="<td><input type='checkbox' name='suppPersonnelId".$ligne->IDPERSONNEL."' value='$ligne->IDPERSONNEL'></td>";
         $listePersonnel.="</tr>";
     }
     $listePersonnel.= "</table>";
@@ -100,6 +102,34 @@ function listeConsignes($consignes) {
     $listeConsignes.="</table>";
 
     return $listeConsignes;
+}
+
+function listeMedecins($medecins) {
+    $listeMed = "<table id='tableMedecins'> <tr><th>ID</th> <th>Spécialité</th> <th>Nom</th> <th>Prenom</th> <th>Séléctionner</th></tr>";
+
+    foreach ($medecins as $ligne) {
+        $listeMed.="<tr>";
+        $listeMed.="<td>$ligne->IDPERSONNEL</td>";
+        $listeMed.="<td>$ligne->LIBELLESPECIALITE</td>";
+        $listeMed.="<td>$ligne->NOM</td>";
+        $listeMed.="<td>$ligne->PRENOM</td>";
+        $listeMed.="<td><input type='checkbox' name='medecinCheck".$ligne->IDPERSONNEL."' value='$ligne->IDPERSONNEL'></td>";
+        $listeMed.="</tr>";
+    }
+    $listeMed.="</table>";
+    $listeMed.="<input type='submit' id='suppMedecins' name='suppMedecins' value='Supprimer'>";
+
+    return $listeMed;
+}
+
+function listeSpecialite($spe) {
+    $listeSpe = "";
+
+    foreach ($spe as $ligne) {
+        $listeSpe.="<option value='$ligne->IDSPECIALITE'>$ligne->LIBELLESPECIALITE</option>";
+    }
+
+    return $listeSpe;
 }
 
 function afficherAcceuil() {
