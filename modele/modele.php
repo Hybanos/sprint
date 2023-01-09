@@ -48,6 +48,34 @@ function getClients() {
     return $clients;
 }
 
+function getClient($id){
+    $connection=getConnect();
+    $requete="SELECT * FROM CLIENT where IDCLIENT=$id";
+    $resultat=$connection->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $client=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $client;
+}
+
+function getClientNSS($NSS){
+    $connection=getConnect();
+    $requete="SELECT * FROM CLIENT where NSS=$NSS";
+    $resultat=$connection->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $client=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $client;
+}
+function getNSS($nom, $prenom){
+    $connection=getConnect();
+    $requete="SELECT NSS FROM CLIENT where NOM=$nom AND PRENOM=$prenom";
+    $resultat=$connection->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $client=$resultat->fetchall();
+    $resultat->closeCursor();
+    return $nss;
+}
 function modifierSolde($id, $montant) {
     $connection=getConnect();
     $query="UPDATE CLIENT SET SOLDE=$montant where IDCLIENT=$id";
@@ -181,6 +209,16 @@ function supprimerRDV($id) {
 function getRDVs() {
     $connection=getConnect();
     $query="SELECT * FROM RDV";
+    $res=$connection->query($query);
+    $res->setFetchMode(PDO::FETCH_OBJ);
+    $rdvs=$res->fetchAll();
+    $res->closeCursor();
+    return $rdvs;
+}
+
+function getClientRDVs($id) {
+    $connection=getConnect();
+    $query="SELECT NOM, DATE, MONTANT from medecin natural join motif natural join rdv where IDCLIENT=$id";
     $res=$connection->query($query);
     $res->setFetchMode(PDO::FETCH_OBJ);
     $rdvs=$res->fetchAll();

@@ -77,6 +77,31 @@ try {
             }
         }
         ctrlAfficherPageDirecteur();
+    } else if (isset($_POST["creationPatient"])) {
+        $id = $_POST["idPatient"];
+        $nom = $_POST["nomPatient"];
+        $prenom = $_POST["prenomPatient"];
+        $adresse = $_POST["adressePatient"];
+        $numero = $_POST["numeroPatient"];
+        $dateNaissance = $_POST["dateNaissancePatient"];
+        $mdp = $_POST["mdp"];
+        $nss = $_POST["NSS"];
+        $departementNaissance = $_POST["departementPatient"];
+        $paysNaissance = $_POST["paysPatient"];
+        ctrlCreerModifierClient($id, $nom, $prenom, $adresse, $numero, $dateNaissance,$departementNaissance, $paysNaissance, $nss, $mdp);
+    } else if (isset($_POST["synthese"])) {
+        $nss=$_POST["NSS"];
+        ctrlSyntheseClient($NSS);
+
+    } else if (isset($_POST["trouver"])) {
+        $prenom=$_POST["prenom"];
+        $nom=$_POST["nom"];
+        ctrlGetNSS($nom, $prenom);
+    } else if(isset($_POST["creationRDV"])){
+        $nom=$_POST["nom"];
+        $spe=$_POST["specialite"];
+        $dateTime=$_POST["dateHeure"];
+        ctrlCreerRDV($nom, $spe, $dateTime);
     } else {
         ctrlAfficherAcceuil();
     }
