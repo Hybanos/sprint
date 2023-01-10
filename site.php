@@ -73,6 +73,7 @@ try {
     } else if (isset($_POST["suppMedecins"])) {
         foreach ($_POST as $key=>$val) {
             if (str_starts_with($key, "medecinCheck")) {
+                ctrlSupprimerMedecin($val);
                 ctrlSupprimerPersonnel($val);
             }
         }
@@ -83,26 +84,39 @@ try {
         $prenom = $_POST["prenomPatient"];
         $adresse = $_POST["adressePatient"];
         $numero = $_POST["numeroPatient"];
-        $dateNaissance = $_POST["dateNaissancePatient"];
-        $mdp = $_POST["mdp"];
-        $nss = $_POST["NSS"];
+        $date = $_POST["dateNaissancePatient"];
+        $nss = $_POST["nss"];
         $departementNaissance = $_POST["departementPatient"];
         $paysNaissance = $_POST["paysPatient"];
-        ctrlCreerModifierClient($id, $nom, $prenom, $adresse, $numero, $dateNaissance,$departementNaissance, $paysNaissance, $nss, $mdp);
+        $solde=$_POST["solde"];
+        ctrlCreerModifierClient($id, $nom, $prenom, $adresse, $numero, $date,$departementNaissance, $paysNaissance, $nss, $solde);
+        ctrlAfficherPageAgent(null, null, null, null);
+
     } else if (isset($_POST["synthese"])) {
-        $nss=$_POST["NSS"];
+        $NSS=$_POST["NSS"];
         ctrlSyntheseClient($NSS);
 
+    } else if (isset($_POST["envoyerAjouterSolde"])) {
+        $id = $_POST["id"];
+        $solde = $_POST["ajouterSolde"];
+        $NSS = $_POST["NSS"];
+        ctrlAjouterSolde($id, $solde);
+        ctrlAfficherPageAgent(null, null, null, null);
+
     } else if (isset($_POST["trouver"])) {
-        $prenom=$_POST["prenom"];
         $nom=$_POST["nom"];
-        ctrlGetNSS($nom, $prenom);
+        ctrlGetNSS($nom);
+
     } else if(isset($_POST["creationRDV"])){
         $nom=$_POST["nom"];
-        $spe=$_POST["specialite"];
         $dateTime=$_POST["dateHeure"];
-        $id=$
-        ctrlCreerRDV($nom, $spe, $dateTime);
+        $date = substr_replace($dateTime, " ", 10, 1);
+        $date = substr_replace($date, "00", 14, 2);
+        $NSS=$_POST["NSS"];
+        $motif = $_POST["motif"];
+        $erreur = ctrlCreerRDV($NSS, $nom, $date, $motif);
+        ctrlAfficherPageAgent(null, null, $erreur, null);
+
     } else {
         ctrlAfficherAcceuil();
     }

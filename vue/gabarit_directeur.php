@@ -83,7 +83,6 @@ function cacherMedecins() {
                 <input type="text" name="id" id="texte" placeholder="Id de l'employé à modifier">
                 <select id="liste" name="categorie">
                     <option value="Agent">Agent</option>
-                    <!-- <option value="Medecin">Medecin</option> -->
                     <option value="Directeur">Directeur</option>
                 </select>
                 <input type="text" name="nom" id="texte" placeholder="Nom">
@@ -100,10 +99,10 @@ function cacherMedecins() {
 
         <form method="POST" id="motif">
             <fieldset>
-                <legend>Gestionnaire de rendez-vous :</legend>
-                <input type="text" name="id" id="texte" placeholder="Identifiants du motif">
-                <input type="text" name="libelle" id="texte" placeholder="Nom du motif">
-                <input type="text" name="prix" id="texte" placeholder="Prix du rendez-vous">
+                <legend>Motifs de rendez-vous :</legend>
+                <input type="text" name="id" id="texte" placeholder="ID du motif">
+                <input type="text" name="libelle" id="texte" placeholder="Nom du motif" required>
+                <input type="text" name="prix" id="texte" placeholder="Prix du rendez-vous" required>
                 <br>
                 Pieces requises pour le motif :<?php echo $listePieces; ?>
                 <br>

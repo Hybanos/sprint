@@ -1,10 +1,12 @@
 <?php 
 
-function afficherPageMedecin($medecin) {
+function afficherPageMedecin($medecin, $taches) {
     $nom=$medecin->NOM;
     $login=$medecin->LOGIN;
     $mdp=$medecin->MDP;
     $id=$medecin->IDPERSONNEL;
+
+    $taches = listeTaches($taches);
     require_once("gabaritMedecin.php");
 }
 
@@ -19,8 +21,39 @@ function afficherPageDirecteur($personnel, $motif, $pieces, $requiert, $consigne
     require("gabarit_directeur.php");
 }
 
-function afficherPageAgent() {
+function afficherPageAgent($client, $rdvs, $motifs, $erreur, $clients, $nss) {
+
+    $synthese = "";
+    if ($client != null) {
+        $synthese = afficherClient($client, $rdvs);
+    }
+    $listeMotifs = optionsMotifs($motifs);
+    $listeClients = optionsClients($clients);
+    $displayErreur = "";
+
+    if ($erreur != null) {
+        $displayErreur = "<p class='erreur'>$erreur</p>";
+    }
+
+    if ($nss == null) $nss = "";
+    else $nss = "<br>$nss";
+
     require_once("gabarit_agent.php");
+}
+
+function listeTaches($taches) {
+
+    $liste = "<table> <tr> <th>Horaires bloqués</th> </tr>";
+
+    foreach ($taches as $ligne) {
+        $liste.= "<tr>";
+        $liste.= "<td>$ligne->DATEHEURE</td>";
+        $liste.= "</tr>";
+    }
+
+    $liste.= "</table>";
+
+    return $liste;
 }
 
 function listePersonnel($personnel) {
@@ -142,15 +175,59 @@ function afficherAcceuil() {
     require_once("gabarit_acceuil.php");
 }
 
-function afficherClient($client, $rdvs){
-    $synthese = "<p>'$client->IDCLIENT'<br>'$client->NOM'<br>'$client->PRENOM'<br>'$client->ADRESSE'<br>'$client->NUMTEL'<br>'$client->DATENAISSANCE'<br>'$client->DEPARTEMENTNAISSANCE'<br>'$client->PAYSNAISSANCE'<br>'$client->NSS'<br>'$client->SOLDE'<br> Rendez vous :";
-    foreach ($rdvs as $rdv){
-        $synthese.="'$rdv->NOM','$rdv->DATE','$rdv->MONTANT'<br>";
+function afficherClient($CLIENT, $rdvs){
+
+    $synthese = "<table> <tr><th>ID</th> <th>Nom</th> <th>Prenom</th> <th>Adresse</th> <th>Numéro Tel</th> <th>Date de naisssance</th> <th>Département naiss.</th> <th>Pays naiss.</th> <th>NSS</th> <th>Solde</th> </tr>";
+
+    $synthese.="<tr>";
+    $synthese.="<td>$CLIENT->IDCLIENT</td>";
+    $synthese.="<td>$CLIENT->NOM</td>";
+    $synthese.="<td>$CLIENT->PRENOM</td>";
+    $synthese.="<td>$CLIENT->ADRESSE</td>";
+    $synthese.="<td>$CLIENT->NUMTEL</td>";
+    $synthese.="<td>$CLIENT->DATENAISSANCE</td>";
+    $synthese.="<td>$CLIENT->DEPARTEMENTNAISSANCE</td>";
+    $synthese.="<td>$CLIENT->PAYSNAISSANCE</td>";
+    $synthese.="<td>$CLIENT->NSS</td>";
+    $synthese.="<td>$CLIENT->SOLDE</td>";
+    $synthese.="</tr></table>";
+    
+    $synthese.="<br><table> <tr><th>Motif RDV</th> <th>Spécialité medecin</th> <th>Date RDV</th> <th>Montant</th></tr>";
+
+    foreach ($rdvs as $rdv) {
+        $synthese.="<tr>";
+        $synthese.="<td>$rdv->LIBELLEMOTIF</td>";
+        $synthese.="<td>$rdv->LIBELLESPECIALITE</td>";
+        $synthese.="<td>$rdv->DATE</td>";
+        $synthese.="<td>$rdv->MONTANT</td>";
+        $synthese.="</tr>";
     }
-    $synthese.="</p>";
+
+    $synthese.="</table><br>";
+
+    $synthese.="<input type='hidden' name='id' value='$CLIENT->IDCLIENT'>";
+    $synthese.="<input type='text' name='ajouterSolde' placeholder='Ajouter au solde'> ";
+    $synthese.="<input type='submit' name='envoyerAjouterSolde' value='Valider'>";
+
     return $synthese;
 }
 
-function afficherNSS($nss){
-    return $nss;
+function optionsMotifs($motifs) {
+    $listeMotifs = "";
+
+    foreach ($motifs as $ligne) {
+        $listeMotifs.="<option value='$ligne->IDMOTIF'>$ligne->LIBELLEMOTIF</option>";
+    }
+
+    return $listeMotifs;
+}
+
+function optionsClients($clients) {
+    $listeClients = "";
+
+    foreach ($clients as $ligne) {
+        $listeClients.="<option value='$ligne->NOM'>$ligne->NOM</option>";
+    }
+
+    return $listeClients;
 }

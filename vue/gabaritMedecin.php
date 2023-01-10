@@ -48,6 +48,8 @@ function envoi() {
         <input type="hidden" name="mdp" value="<?php echo $mdp; ?>">
 
         <p>nombre de créneaux a bloquer : <input type="text" id="textfield" onblur="envoi()"></p>
+
+        <?php echo $taches; ?>
     </fieldset>
 
   </form>
