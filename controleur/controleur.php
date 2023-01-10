@@ -15,7 +15,7 @@ function ctrlLogin($id, $mdp) {
         }
     } else {
         ctrlAfficherAcceuil();
-        echo "Login ou mdp invalide.";
+        echo "<div class='container'><fieldset><p>Login ou mdp invalide.</p></fieldset></div>";
     }
 }
 
@@ -174,7 +174,7 @@ function ctrlCreerRDV($NSS, $nom, $date, $motif) {
     if ($consignes != null) {
         $erreur.= "<br>Consignes pour le RDV : <br>";
         foreach ($consignes as $l) {
-            $erreur.="$l->LIBELLECONSIGNE<br>";
+            $erreur.="$l->CONSIGNE<br>";
         }
     }
 

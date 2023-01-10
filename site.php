@@ -43,10 +43,10 @@ try {
         
         foreach ($_POST as $key=>$val) {
             if (str_starts_with($key, "pieceCheck")) {
-                echo $key.",".$val. " ";
+                // echo $key.",".$val. " ";
                 ctrlAjouterRequiert($id, $val);
             } else if (str_starts_with($key, "consigneCheck")) {
-                echo $key.",".$val. " ";
+                // echo $key.",".$val. " ";
                 ctrlAjouterNecessite($id, $val);
             }
         }

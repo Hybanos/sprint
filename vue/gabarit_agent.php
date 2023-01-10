@@ -3,6 +3,7 @@
     <head>
         <meta name="description" content="Bienvenue, Agent" />
         <meta charset="utf-8">
+        <link rel="stylesheet" href="vue/style.css">
         <title>Agent</title>
 
         <script type="text/javascript">
@@ -46,59 +47,69 @@ function testTel(input) {
         </script>
     </head>
     <body onload="hidePays()">
+    <div class="container">
         <form method="post">
             <fieldset>
                 <legend>Créer ou modifier une fiche patient :</legend>
-                <input type="text" name="idPatient" id="texte" placeholder="Identifiants">
-                <input type="text" name="nomPatient" id="texte" placeholder="Nom du patient" required>
-                <input type="text" name="prenomPatient" id="texte" placeholder="Prénom du patient" required>
-                <input type="text" name="adressePatient" id="texte" placeholder="Adresse du patient" required>
-                <input type="text" name="numeroPatient" id="texte" placeholder="Numéro de téléphone du patient" maxlength="10" oninput="testTel(this)" required>
-                <input type="date" name="dateNaissancePatient" id="texte" placeholder="Date de Naissance du  patient" required>
-                <input type="text" name="nss" id="texte" placeholder="NSS du patient" required>
-                <input type="text" name="departementPatient" id="texte" placeholder="Département de naissance du patient" oninput="testDepartement(this)" required>
+                <p>ID:<br><input type="text" name="idPatient" class="gabarit" placeholder="Identifiants"></p>
+                <p>Nom:<br><input type="text" name="nomPatient" class="gabarit" placeholder="Nom du patient" required></p>
+                <p>Prénom:<br><input type="text" name="prenomPatient" class="gabarit" placeholder="Prénom du patient" required></p>
+                <p>Adresse:<br><input type="text" name="adressePatient" class="gabarit" placeholder="Adresse du patient" required></p>
+                <p>Téléphone:<br><input type="text" name="numeroPatient" class="gabarit" placeholder="Numéro de téléphone du patient" maxlength="10" oninput="testTel(this)" required></p>
+                <p>Date de naissance:<br><input type="date" name="dateNaissancePatient" class="gabarit" placeholder="Date de Naissance du  patient" required></p>
+                <p>Numéro de sécurité sociale:<br><input type="text" name="nss" class="gabarit" placeholder="NSS du patient" required></p>
+                <p>Département et pays de naissance:<br><input type="text" name="departementPatient" class="gabarit" placeholder="Département de naissance du patient" oninput="testDepartement(this)" required></p>
                 <input type="text" name="paysPatient" id="pays" placeholder="Pays de Naissance" value="France" required>
-                <input type="text" name="solde" placeholder="Solde du compte" required>
+                <p>Solde:<br><input type="text" name="solde" class="gabarit" placeholder="Solde du compte" required></p>
                 <br>
                 <input type="submit" name="creationPatient" id="bouton" value="Créer ou modifier">  
                 <input type="reset" value="Effacer">
             </fieldset>
         </form>
+    </div>
+    <div class="container">
         <form method="POST">
             <fieldset>
                 <legend>Synthèse Patient :</legend>
-                <input type="text" name="NSS" id="texte" placeholder="NSS du patient">
-                <input type="submit" name="synthese" value="synthèse patient">
+                <p>Numéro de sécurité sociale:<br><input type="text" name="NSS" class="gabarit" placeholder="NSS du patient"></p>
+                <input type="submit" name="synthese" class="bouton" value="synthèse patient">
                 <?php echo $synthese; ?>
             </fieldset>
         </form>
+    </div>
+    <div class="container">
         <form method="POST">
             <fieldset>
                 <legend>Trouver le NSS d'un patient :</legend>
-                <input type="text" name="nom" id="texte" placeholder="Nom du patient" list="listeClients" required>
+                <p>Nom du patient:<br><input type="text" name="nom" class="gabarit" placeholder="Nom du patient" list="listeClients" required></p>
                     <dataList id="listeClients">
                         <?php echo $listeClients; ?>
                     </dataList>
-                <input type="submit" name="trouver" id="bouton" value="Trouver">
+                <input type="submit" name="trouver" class="bouton" id="bouton" value="Trouver">
                 <?php echo $nss; ?>
             </fieldset>
         </form>
+    </div>
+    <div class="container">
         <form method="POST">
             <fieldset>
                 <legend>Créer un rdv :</legend>
-                <input type="text" name="NSS" id="texte" placeholder="NSS du client" required>
-                <input type="text" name="nom" id="texte" placeholder="Nom du médecin" required>
-                <select id="liste" name="motif">
+                <p>Numéro de sécurité sociale<br><input type="text" name="NSS" class="gabarit" placeholder="NSS du client" required></p>
+                <p>Nom du médecin<br><input type="text" name="nom" class="gabarit" placeholder="Nom du médecin" required></p>
+                <p>Motif du rendez-vous<br><select id="liste" name="motif">
                 <?php echo $listeMotifs; ?>
-                </select>
-                <input type="datetime-local" name="dateHeure" id="calendrier" placeholder="Date et Heure du rendez vous" required>
-                <input type="submit" name="creationRDV" id="bouton" value="Créer RDV">
+                </select></p>
+                <p>Date et heure du rendez-vous<br><input type="datetime-local" name="dateHeure" class="gabarit" id="calendrier" placeholder="Date et Heure du rendez vous" required></p>
+                <input type="submit" name="creationRDV" class="bouton" id="bouton" value="Créer RDV">
                 <?php echo $displayErreur; ?>
             </fieldset>
         </form>
+    </div>
+    <div class="container">
 
         <form method="POST" action="site.php">
-            <p><input type="submit" value="Deconnexion"></p>
+            <p><input type="submit" class="bouton" value="Deconnexion"></p>
         </form>
+    </div>
     </body>
 </html>

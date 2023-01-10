@@ -73,7 +73,7 @@ function listePersonnel($personnel) {
         $listePersonnel.="</tr>";
     }
     $listePersonnel.= "</table>";
-    $listePersonnel.= "<input type='submit' id='suppPersonnel' name='suppPersonnel' value='Supprimer'>";
+    $listePersonnel.= "<input type='submit' class='bouton' id='suppPersonnel' name='suppPersonnel' value='Supprimer'>";
     
     return $listePersonnel;
 }
@@ -110,7 +110,7 @@ function listeMotif($motif, $pieces, $requiert, $consignes, $necessite) {
         $listeMotif.="</tr>";
     }
     $listeMotif.="</table>";
-    $listeMotif.="<input type='submit' id='suppMotif' name='suppMotif' value='Supprimer'>";
+    $listeMotif.="<input type='submit' class='bouton' id='suppMotif' name='suppMotif' value='Supprimer'>";
 
     return $listeMotif;
 }
@@ -156,7 +156,7 @@ function listeMedecins($medecins) {
         $listeMed.="</tr>";
     }
     $listeMed.="</table>";
-    $listeMed.="<input type='submit' id='suppMedecins' name='suppMedecins' value='Supprimer'>";
+    $listeMed.="<input type='submit' class='bouton' id='suppMedecins' name='suppMedecins' value='Supprimer'>";
 
     return $listeMed;
 }
@@ -206,8 +206,8 @@ function afficherClient($CLIENT, $rdvs){
     $synthese.="</table><br>";
 
     $synthese.="<input type='hidden' name='id' value='$CLIENT->IDCLIENT'>";
-    $synthese.="<input type='text' name='ajouterSolde' placeholder='Ajouter au solde'> ";
-    $synthese.="<input type='submit' name='envoyerAjouterSolde' value='Valider'>";
+    $synthese.="<input type='text' class='gabarit' name='ajouterSolde' placeholder='Ajouter au solde'> ";
+    $synthese.="<input type='submit' class='bouton' name='envoyerAjouterSolde' value='Valider'>";
 
     return $synthese;
 }
