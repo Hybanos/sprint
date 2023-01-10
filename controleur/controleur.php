@@ -11,7 +11,7 @@ function ctrlLogin($id, $mdp) {
         } else if ($personnel->IDCATEGORIE == 3) {
             ctrlAfficherPageDirecteur();
         } else if ($personnel->IDCATEGORIE == 1) {
-            ctrlAfficherPageAgent();
+            ctrlAfficherPageAgent(null, null, null, null);
         }
     } else {
         ctrlAfficherAcceuil();
@@ -47,38 +47,28 @@ function ctrlAfficherPageDirecteur() {
 }
 
 function ctrlAfficherPageMedecin($id) {
-    afficherPageMedecin($id);
+    $taches = getTacheMedecin($id->IDPERSONNEL);
+    afficherPageMedecin($id, $taches);
 }
 
-function ctrlAfficherPageAgent() {
-    afficherPageAgent();
+function ctrlAfficherPageAgent($client, $rdvs, $erreur, $nss) {
+    $motifs = getMotifs();
+    afficherPageAgent($client, $rdvs, $motifs, $erreur, getClients(), $nss);
 }
-
-function ctrlAfficherListeListes($liste) {
-    // fonction pour la VUE qui affiche toutes les listes, sinon y'en aura 15 ca va etre un enfer
-    // afficherListeListes($liste)
-}
-
 
 // MODELE
+
 // CLIENTS
 
 function ctrlAjouterClient($nom, $prenom, $adresse, $tel, $dateNaissance, $departementNaissance, $paysNaissance, $NSS, $mdp) {
     ajouterClient($nom, $prenom, $adresse, $tel, $dateNaissance, $departementNaissance, $paysNaissance, $NSS, $mdp);
-    ctrlAfficherListeListes(getClients());
 }
 
 function ctrlModifierClient($id, $nom, $prenom, $adresse, $tel, $dateNaissance, $departementNaissance, $paysNaissance, $NSS, $mdp) {
     modifierClient($id, $nom, $prenom, $adresse, $tel, $dateNaissance, $departementNaissance, $paysNaissance, $NSS, $mdp);
-    ctrlAfficherListeListes(getClients());
 }
 
-function ctrlSupprimerClient($id) {
-    supprimerClient($id);
-    ctrlAfficherListeListes(getClients());
-}
-
-function ctrlCreerModifierClient($id, $nom, $prenom, $adresse, $numero, $dateNaissance, $departementNaissance, $paysNaissance, $nss, $mdp){
+function ctrlCreerModifierClient($id, $nom, $prenom, $adresse, $numero, $dateNaissance, $departementNaissance, $paysNaissance, $nss, $solde){
     if ($id == null) {
         $id = -1;
     }
@@ -88,36 +78,42 @@ function ctrlCreerModifierClient($id, $nom, $prenom, $adresse, $numero, $dateNai
     if ($client == null) {
         ajouterClient($nom, $prenom, $adresse,
         $numero, $dateNaissance, $departementNaissance,
-        $paysNaissance, $NSS, $mdp);
+        $paysNaissance, $nss, $solde);
     } else {
         modifierClient($id, $nom, $prenom, $adresse,
         $numero, $dateNaissance, $departementNaissance,
-        $paysNaissance, $NSS, $mdp);
+        $paysNaissance, $nss, $solde);
     }
 }
 
 function ctrlSyntheseClient($NSS){
-    afficherClient(getClientNSS($NSS),getClientRDVs(getClientNSS($NSS)->IDCLIENT));
+    ctrlAfficherPageAgent(getClientNSS($NSS),getClientRDVs(getClientNSS($NSS)->IDCLIENT), null, null);
 }
 
-function ctrlGetNSS($nom, $prenom){
-    afficherNSS(getNSS($nom, $prenom));
+function ctrlGetNSS($nom){
+    $client = getNss($nom);
+    if ($client == null) $nss = "";
+    else $nss = $client->NSS;
+
+    ctrlAfficherPageAgent(null, null, null, $nss);
 }
+
+function ctrlAjouterSolde($id, $solde) {
+    modifierSolde($id, $solde);
+}
+
 // PERSONNEL
 
 function ctrlAjouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp, $spe) {
     ajouterPersonnel($idCategorie, $nom, $prenom, $login, $mdp, $spe);
-    ctrlAfficherListeListes(getPersonnels());
 }
 
 function ctrlModifierPersonnel($id, $idCategorie, $nom, $prenom, $login, $mdp, $spe) {
     modifierPersonnel($id, $idCategorie, $nom, $prenom, $login, $mdp, $spe);
-    ctrlAfficherListeListes(getPersonnels());
 }
 
 function ctrlSupprimerPersonnel($id) {
     supprimerPersonnel($id);
-    ctrlAfficherListeListes(getPersonnels());
 }
 
 // MEDECINS
@@ -142,29 +138,55 @@ function ctrlCreerModifierMedecin($id, $spe, $nom, $prenom, $login, $mdp) {
 
 function ctrlModifierMedecin($id, $nom, $prenom, $login, $mdp, $spe) {
     modifierMedecin($id, $nom, $prenom, $login, $mdp, $spe);
-    ctrlAfficherListeListes(getMedecins());
 }
 
 function ctrlSupprimerMedecin($id) {
     supprimerMedecin($id);
-    ctrlAfficherListeListes(getMedecins());
 }
 
 // RENDEZ-VOUS
 
-function ctrlAjouterRDV($idSpe, $idMotif, $idClient, $date) {
-    ajouterRDV($idSpe, $idMotif, $idClient, $date);
-    ctrlAfficherListeListes(getRDVs());
+function ctrlCreerRDV($NSS, $nom, $date, $motif) {
+    $client = getClientNSS($NSS);
+    if ($client == null) return "Ce client n'existe pas.";
+
+    $medecin = getMedecinNom($nom);
+    if ($medecin == null) return "Ce médecin n'existe pas.";
+
+    $conflict = testConflictTache($medecin->IDPERSONNEL, $date);
+    if ($conflict != null) return "Cet horaire est bloqué.";
+
+    if (getMotif($motif)->MONTANT > $client->SOLDE) return "Solde insuffisant, merci de recharger";
+    else ctrlAjouterSolde($client->IDCLIENT, -(getMotif($motif)->MONTANT));
+
+    ctrlAjouterRDV($medecin->IDSPECIALITE, $motif, $client->IDCLIENT, $date);
+
+    $erreur = "";
+    $pieces = getPiecesMotif($motif);
+    $consignes = getConsignesMotif($motif);
+
+    if ($pieces != null) {
+        $erreur.= "<br>Pieces à fournir pour le RDV : <br>";
+        foreach ($pieces as $l) {
+            $erreur.="$l->LIBELLEPIECE<br>";
+        }
+    }
+    if ($consignes != null) {
+        $erreur.= "<br>Consignes pour le RDV : <br>";
+        foreach ($consignes as $l) {
+            $erreur.="$l->LIBELLECONSIGNE<br>";
+        }
+    }
+
+    return $erreur;
 }
 
-function ctrlModifierRDV($id, $idSpe, $idMotif, $idClient, $date) {
-    modifierRDV($id, $idSpe, $idMotif, $idClient, $date);
-    ctrlAfficherListeListes(getRDVs());
+function ctrlAjouterRDV($idSpe, $idMotif, $idClient, $date) {
+    ajouterRDV($idSpe, $idMotif, $idClient, $date);
 }
 
 function ctrlSupprimerRDV($id) {
     supprimerRDV($id);
-    ctrlAfficherListeListes(getRDVs());
 }
 
 // MOTIFS
@@ -189,14 +211,8 @@ function ctrlCreerModifierMotif($id, $libelle, $prix) {
     return $id;
 }
 
-function ctrlAjouterMotif($libelle, $montant) {
-    ajouterMotif($libelle, $montant);
-    ctrlAfficherListeListes(getMotifs());
-}
-
 function ctrlModifierMotif($id, $libelle, $montant) {
     modifierMotif($id,$libelle, $montant);
-    ctrlAfficherListeListes(getMotifs());
 }
 
 function ctrlSupprimerMotif($id) {
@@ -205,44 +221,10 @@ function ctrlSupprimerMotif($id) {
     supprimerMotif($id);
 }
 
-//PIECE
-
-function ctrlAjouterPiece($libelle) {
-    ajouterPiece($libelle);
-    ctrlAfficherListeListes(getPiece());
-}
-
-function ctrlModifierPiece($id, $libelle) {
-    modifierPiece($id, $libelle);
-    ctrlAfficherListeListes(getPiece());
-}
-
-function ctrlSupprimerPiece($id) {
-    supprimerPiece($id);
-    ctrlAfficherListeListes(getPiece());
-}
-
 // REQUIERT
 
 function ctrlAjouterRequiert($idMotif, $idPiece) {
     ajouterRequiert($idMotif, $idPiece);
-}
-
-// CONSIGNE
-
-function ctrlAjouterConsigne($libelle) {
-    ajouterConsigne($libelle);
-    ctrlAfficherListeListes(getConsigne());
-}
-
-function ctrlModifierConsigne($id, $libelle) {
-    modifierConsigne($id, $libelle);
-    ctrlAfficherListeListes(getConsigne());
-}
-
-function ctrlSupprimerConsigne($id) {
-    supprimerConsigne($id);
-    ctrlAfficherListeListes(getConsigne());
 }
 
 // NECESSITE
@@ -255,46 +237,4 @@ function ctrlAjouterNecessite($idMotif, $idConsigne) {
 
 function ctrlAjouterTache($date, $idPersonnel) {
     ajouterTache($date, $idPersonnel);
-}
-
-function ctrlModifierTache($id, $date, $idPersonnel) {
-    modifierTache($id, $date, $idPersonnel);
-}
-
-function ctrlSupprimerTache($id) {
-    supprimerTache($id);
-}
-
-// CATEGORIE
-
-function ctrlAjouterCategorie($categorie) {
-    ajouterCategorie($categorie);
-    ctrlAfficherListeListes(getCategorie());
-}
-
-function ctrlModifierCategorie($id, $categorie) {
-    modifierCategorie($id, $categorie);
-    ctrlAfficherListeListes(getCategorie());
-}
-
-function ctrlSupprimerCategorie($id) {
-    supprimerCategorie($id);
-    ctrlAfficherListeListes(getCategorie());
-}
-
-// SPECIALITE
-
-function ctrlAjouterSpecialite($libelle) {
-    ajouterSpecialite($libelle);
-    ctrlAfficherListeListes(getSpecialite());
-}
-
-function ctrlModifierSpecialite($id, $libelle) {
-    modifierSpecialite($id, $libelle);
-    ctrlAfficherListeListes(getSpecialite());
-}
-
-function ctrlSupprimerSpecialite($id) {
-    supprimerSpecialite($id);
-    ctrlAfficherListeListes(getSpecialite());
 }
