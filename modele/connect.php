@@ -4,7 +4,7 @@
     define("PASSWORD","");
     define("BDD","SPRINT");
 
-    // define("SERVEUR","51.103.95.30");
+    // define("SERVEUR","");
     // define("USER","sprint");
     // define("PASSWORD","passwd_Sprint01");
     // define("BDD","SPRINT");
